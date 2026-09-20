@@ -1,8 +1,8 @@
 # Immersive Demonstrations are the Key to Imitation Learning
 
-Code and data for the paper *Immersive Demonstrations are the Key to Imitation Learning* (Kelin Li, Digby Chappell and Nicolas Rojas, ICRA 2023).
+Code and data for the paper [*Immersive Demonstrations are the Key to Imitation Learning*](https://arxiv.org/abs/2301.09157) (Kelin Li, Digby Chappell and Nicolas Rojas, ICRA 2023).
 
-The repository contains the demonstration platform: manipulation demonstrations are collected in a PyBullet scene with a **SenseGlove** haptic glove and an **HTC Vive Tracker**, with or without force feedback to the demonstrator. It also contains the demonstrations collected in the user study and the behaviour-cloning scripts.
+The repository contains the demonstration platform: manipulation demonstrations are collected in a PyBullet scene with a [**SenseGlove**](https://senseglove.gitlab.io/SenseGloveDocs/dk1-glove.html) haptic glove and an [**HTC Vive Tracker**](https://developer.vive.com/resources/hardware-guides/vive-tracker-developer-guidelines/), with or without force feedback to the demonstrator. It also contains the demonstrations collected in the user study and the behaviour-cloning scripts.
 
 The demonstrator's wrist pose (Vive Tracker) and finger joints (SenseGlove) drive a simulated end-effector. Contact forces computed in simulation are rendered back to the demonstrator's fingers through the glove's brakes. Three end-effectors are supported: a 20-DoF human hand, the Franka parallel gripper, and the RUTH hand.
 
@@ -20,8 +20,8 @@ The demonstrator's wrist pose (Vive Tracker) and finger joints (SenseGlove) driv
 
 | Component | Role | Notes |
 |---|---|---|
-| SenseGlove DK1 (right hand) | Finger joint sensing; per-finger force feedback (5 brake channels, command range 0–100) | USB connection |
-| HTC Vive Tracker + 2× SteamVR base stations | 6-DoF wrist pose | Must appear in SteamVR as `tracker_1` |
+| [SenseGlove DK1](https://senseglove.gitlab.io/SenseGloveDocs/dk1-glove.html) (right hand) | Finger joint sensing; per-finger force feedback (5 brake channels, command range 0–100) | USB connection |
+| [HTC Vive Tracker](https://developer.vive.com/resources/hardware-guides/vive-tracker-developer-guidelines/) + 2× SteamVR base stations | 6-DoF wrist pose | Must appear in SteamVR as `tracker_1` |
 | Linux PC with a display | Runs PyBullet, the glove library and SteamVR | Developed on Ubuntu with Python 3.8 |
 | Franka Emika Panda (**optional**) | Renders the wrist force to the demonstrator's arm (`panda_flag = True`) | The glove is mounted on the Panda flange through a 3D-printed bracket. Needs a separate robot-side program listening on TCP; see §6 |
 
@@ -227,6 +227,7 @@ With `panda_flag = True`, the script opens a TCP server (`utils.set_robot_arm`, 
   title     = {Immersive Demonstrations are the Key to Imitation Learning},
   author    = {Li, Kelin and Chappell, Digby and Rojas, Nicolas},
   booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
-  year      = {2023}
+  year      = {2023},
+  note      = {arXiv:2301.09157}
 }
 ```
