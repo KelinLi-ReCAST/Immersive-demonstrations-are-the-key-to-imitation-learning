@@ -7,12 +7,12 @@ The repository contains the demonstration platform: manipulation demonstrations 
 The demonstrator's wrist pose (Vive Tracker) and finger joints (SenseGlove) drive a simulated end-effector. Contact forces computed in simulation are rendered back to the demonstrator's fingers through the glove's brakes. Three end-effectors are supported: a 20-DoF human hand, the Franka parallel gripper, and the RUTH hand.
 
 <p align="center">
-  <img src="docs/media/teleop_demo.gif" width="520" alt="Demonstrator teleoperating the simulated hand">
+  <img src="media/readme/teleop_demo.gif" width="520" alt="Demonstrator teleoperating the simulated hand">
 </p>
 
 | Human hand (`mano`) | Franka gripper (`franka`) | RUTH hand (`RUTH`) |
 |:---:|:---:|:---:|
-| ![mano](docs/media/sim_mano.gif) | ![franka](docs/media/sim_franka.gif) | ![ruth](docs/media/sim_ruth.gif) |
+| ![mano](media/readme/sim_mano.gif) | ![franka](media/readme/sim_franka.gif) | ![ruth](media/readme/sim_ruth.gif) |
 
 ---
 
@@ -26,9 +26,9 @@ The demonstrator's wrist pose (Vive Tracker) and finger joints (SenseGlove) driv
 | Franka Emika Panda (**optional**) | Renders the wrist force to the demonstrator's arm (`panda_flag = True`) | The glove is mounted on the Panda flange through a 3D-printed bracket. Needs a separate robot-side program listening on TCP; see §6 |
 
 <p align="center">
-  <img src="docs/media/setup_overview.jpg" height="420" alt="Overall setup">
+  <img src="media/readme/setup_overview.jpg" height="420" alt="Overall setup">
   &nbsp;
-  <img src="docs/media/wearing_glove.jpg" height="420" alt="Putting on the SenseGlove">
+  <img src="media/readme/wearing_glove.jpg" height="420" alt="Putting on the SenseGlove">
 </p>
 
 *Left: the full setup. The monitor shows the PyBullet scene, the demonstrator wears the SenseGlove, and (optional configuration) the hand is coupled to the Panda flange. Right: fitting the glove before calibration.*
@@ -39,20 +39,30 @@ The Panda is **not** required. With `panda_flag = False` the system is just the 
 
 ## 2. Repository layout
 
-`SenseGlove-API-master/` (SenseGlove SDK, Linux libraries only) and `GraspIt2URDF-master/` (human-hand URDF and meshes) are third-party and keep their own licences. `demonstrations/*/triad_openvr.py` is from [triad_openvr](https://github.com/TriadSemi/triad_openvr).
+Code, data and media live in separate top-level folders. `third_party/SenseGlove-API-master/` (SenseGlove SDK, Linux libraries only) and `third_party/GraspIt2URDF-master/` (human-hand URDF and meshes) are third-party and keep their own licences. `code/demonstrations/*/triad_openvr.py` is from [triad_openvr](https://github.com/TriadSemi/triad_openvr).
 
 ```
-demonstrations/
-  mano/    mano_pybullet_nopanda.py    utils.py  evaluation.py  data/  video/
-  franka/  franka_pybullet_nopanda.py  utils.py  evaluation.py  data/  video/
-  RUTH/    ruth_pybullet_nopanda.py    utils.py  evaluation.py  data/  video/  urdf/
+code/
+  demonstrations/
+    mano/    mano_pybullet_nopanda.py    utils.py  evaluation.py  evaluation_wrist.py
+    franka/  franka_pybullet_nopanda.py  utils.py  evaluation.py  evaluation_wrist.py
+    RUTH/    ruth_pybullet_nopanda.py    utils.py  evaluation.py  evaluation_wrist.py
+    evaluation_wrist_all.py            wrist/finger force comparison across the three grippers
+  behavioral_cloning/                  behaviour-cloning training and test scripts, custom gym envs in envs/
+data/
+  mano/ franka/ RUTH/                  force/  no_force/  panda/  glove_calibration/  training_results/
   Participants.txt
-SenseGlove-API-master/Core/SGCoreCpp/examples/StandaloneCpp/
-  SenseGlove.cpp            C wrapper around the SenseGlove SDK
-  build_senseglove.sh       builds libsenseglove.so and installs it
-behavioral_cloning/          behaviour-cloning training and test scripts, custom gym envs in envs/
-GraspIt2URDF-master/         HumanHand20DOF.urdf and its meshes
-docs/media/                  images used in this README
+media/
+  videos/<gripper>/<condition>/        PyBullet recordings of every trial
+  plots/                               figures produced by the evaluation scripts
+  readme/                              images used in this README
+assets/
+  RUTH/                                RUTH hand URDF and meshes
+third_party/
+  SenseGlove-API-master/Core/SGCoreCpp/examples/StandaloneCpp/
+    SenseGlove.cpp                     C wrapper around the SenseGlove SDK
+    build_senseglove.sh                builds libsenseglove.so and installs it
+  GraspIt2URDF-master/                 HumanHand20DOF.urdf and its meshes
 ```
 
 ---
@@ -75,23 +85,16 @@ pip install pybullet numpy scipy pandas matplotlib openvr
 pip install torch        # only for the behaviour-cloning scripts
 ```
 
-`triad_openvr.py` (Vive Tracker wrapper) is already copied into each `demonstrations/<gripper>/` folder.
+`triad_openvr.py` (Vive Tracker wrapper) is already copied into each `code/demonstrations/<gripper>/` folder.
 
-### 3.3 Paths to edit
+### 3.3 Paths
 
-Several absolute paths still point to the original machine (`/home/kelin/workspace_kelin/RAL-ICRA2023/...`). Replace them with your clone location:
+The demonstration and evaluation scripts locate `data/`, `media/videos/`, `assets/` and `third_party/` relative to their own file, so they can be run from any directory and no paths need editing.
 
-| File | Line | What it is |
-|---|---|---|
-| `GraspIt2URDF-master/urdf/HumanHand20DOF.urdf` | all `<mesh>` tags | Mesh files (`GraspIt2URDF-master/data/HumanHand20DOF/*.stl`) |
-| `demonstrations/mano/mano_pybullet_nopanda.py` | 59 | Human-hand URDF (`GraspIt2URDF-master/urdf/HumanHand20DOF.urdf`) |
-| `demonstrations/RUTH/ruth_pybullet_nopanda.py` | 59 | RUTH URDF (`demonstrations/RUTH/urdf/urdf/RUTH.urdf`) |
-| `demonstrations/{mano,franka,RUTH}/utils.py` | 49–51 | Where the glove calibration is saved |
-
-A quick way, run from the repository root:
+The only absolute paths left (`/home/kelin/workspace_kelin/RAL-ICRA2023/...`) are in `code/behavioral_cloning/`, because those scripts run from inside a BEHAVIOR checkout (§5). Point them at your clone with:
 
 ```bash
-grep -rl "/home/kelin/workspace_kelin/RAL-ICRA2023" demonstrations GraspIt2URDF-master/urdf | \
+grep -rl "/home/kelin/workspace_kelin/RAL-ICRA2023" code/behavioral_cloning | \
   xargs sed -i "s#/home/kelin/workspace_kelin/RAL-ICRA2023#$(pwd)#g"
 ```
 
@@ -104,11 +107,11 @@ grep -rl "/home/kelin/workspace_kelin/RAL-ICRA2023" demonstrations GraspIt2URDF-
 The Python scripts talk to the glove through a small C interface (`connect`, `get_hand_joints`, `force_feedback`, `disconnect`) loaded with `ctypes`. Build it once:
 
 ```bash
-cd SenseGlove-API-master/Core/SGCoreCpp/examples/StandaloneCpp
+cd third_party/SenseGlove-API-master/Core/SGCoreCpp/examples/StandaloneCpp
 ./build_senseglove.sh
 ```
 
-This compiles `SenseGlove.cpp` against the SDK libraries shipped in `SenseGlove-API-master/Core/{SGCoreCpp,SGConnect}/lib/linux/Release`, then copies `libsenseglove.so`, `libSGCoreCpp.so` and `libSGConnect.so` into `demonstrations/mano`, `demonstrations/franka` and `demonstrations/RUTH`. The library is linked with `rpath=$ORIGIN`, so no `LD_LIBRARY_PATH` is needed as long as the three files stay together.
+This compiles `SenseGlove.cpp` against the SDK libraries shipped in `third_party/SenseGlove-API-master/Core/{SGCoreCpp,SGConnect}/lib/linux/Release`, then copies `libsenseglove.so`, `libSGCoreCpp.so` and `libSGConnect.so` into `code/demonstrations/mano`, `code/demonstrations/franka` and `code/demonstrations/RUTH`. The library is linked with `rpath=$ORIGIN`, so no `LD_LIBRARY_PATH` is needed as long as the three files stay together.
 
 The equivalent manual command is:
 
@@ -140,10 +143,10 @@ Calibrate the glove, press any button to start:
 2. For the next 500 samples, **fully open and fully close the hand several times, and move the thumb through its whole range**. A progress bar is shown.
 3. For every one of the 21 channels, the mean of the 10 largest and the 10 smallest readings is taken as its range.
 
-The result is written to `data/glove_calibration/<demonstrator>.npy` in all three gripper folders (first 21 values: range, last 21: minimum). For later sessions with the same person, set `glove_calibration = False` and the stored file is loaded instead.
+The result is written to `data/<gripper>/glove_calibration/<demonstrator>.npy` for all three grippers (first 21 values: range, last 21: minimum). For later sessions with the same person, set `glove_calibration = False` and the stored file is loaded instead.
 
 <p align="center">
-  <img src="docs/media/operator_view.jpg" width="560" alt="Demonstrator during calibration and collection">
+  <img src="media/readme/operator_view.jpg" width="560" alt="Demonstrator during calibration and collection">
 </p>
 
 ### Step 3: Collect demonstrations
@@ -161,7 +164,7 @@ Choose the settings in the `__main__` block:
 Then, with SteamVR running and the tracker tracked:
 
 ```bash
-cd demonstrations/mano          # or franka / RUTH
+cd code/demonstrations/mano     # or franka / RUTH
 python mano_pybullet_nopanda.py # or franka_pybullet_nopanda.py / ruth_pybullet_nopanda.py
 ```
 
@@ -179,19 +182,19 @@ The wrist tracking gain ramps up during the first seconds of each trial (soft st
 
 ## 5. Output
 
-Per successful trial, in `demonstrations/<gripper>/`:
+Per successful trial:
 
 | File | Content |
 |---|---|
-| `data/<force\|no_force\|panda>/<demonstrator>_<k>.npy` | One row per control cycle: wrist force (3), wrist position (3), wrist Euler orientation (3), end-effector joint targets (`mano`: 20, `RUTH`: 3, `franka`: 1) |
-| `data/<...>/finger_force_<demonstrator>_<k>.npy` | Force rendered to each of the 5 fingers, per cycle |
-| `video/<...>/<demonstrator>_<k>.mp4` | PyBullet screen recording of the trial |
+| `data/<gripper>/<force\|no_force\|panda>/<demonstrator>_<k>.npy` | One row per control cycle: wrist force (3), wrist position (3), wrist Euler orientation (3), end-effector joint targets (`mano`: 20, `RUTH`: 3, `franka`: 1) |
+| `data/<gripper>/<...>/finger_force_<demonstrator>_<k>.npy` | Force rendered to each of the 5 fingers, per cycle |
+| `media/videos/<gripper>/<...>/<demonstrator>_<k>.mp4` | PyBullet screen recording of the trial |
 
-`evaluation.py` in each folder reproduces the force and success-rate plots.
+`evaluation.py` in each `code/demonstrations/<gripper>/` folder reproduces the force and success-rate plots.
 
-The demonstrations from the user study are included: 10 participants, 5 demonstrations per participant, gripper and condition (`force`, `no_force`, `panda`), together with each participant's glove calibration and the simulation recordings. File names use the participant numbers listed in `demonstrations/Participants.txt`.
+The demonstrations from the user study are included: 10 participants, 5 demonstrations per participant, gripper and condition (`force`, `no_force`, `panda`), together with each participant's glove calibration and the simulation recordings. File names use the participant numbers listed in `data/Participants.txt`.
 
-The behaviour-cloning scripts in `behavioral_cloning/` were developed inside the [BEHAVIOR](https://github.com/StanfordVL/behavior) baseline folder (`behavior/baselines/behavioral_cloning/`, with the environments under its `gym/envs/usr/`). Place them there to run them.
+The behaviour-cloning scripts in `code/behavioral_cloning/` were developed inside the [BEHAVIOR](https://github.com/StanfordVL/behavior) baseline folder (`behavior/baselines/behavioral_cloning/`, with the environments under its `gym/envs/usr/`). Place them there to run them.
 
 ### Force rendering
 
