@@ -47,7 +47,6 @@ for f in [f_force,f_no_force,f_panda]:
         eval[i] = f_avg[i]#1/(1+math.exp(-a*(40-f_avg[i])))
     #print(np.mean(f_avg))
     mean_eval.append(np.mean(eval))
-mean_eval[1] = mean_eval[1]/2
     # plt.plot(x,eval)
     #plt.ylim(0,1)
 x = np.array(list(i for i in range(0,2000,int(2000/29))))
@@ -62,8 +61,8 @@ for i in range(len(force_mean_new)):
 # plt.plot(x_new,force_mean_new)
 # plt.plot(x_new,noforce_mean_new)
 
-plt.hlines(mean_eval[0]*3, 0, 2000,color="blue")
-plt.hlines(mean_eval[1]*3, 0, 2000,color="orange")
+plt.hlines(mean_eval[0], 0, 2000,color="blue")
+plt.hlines(mean_eval[1], 0, 2000,color="orange")
 plt.hlines(mean_eval[2], 0, 2000,color="green")
 plt.title("MANO") 
 plt.show()

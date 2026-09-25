@@ -134,7 +134,7 @@ for f in [f_no_force,f_force,f_panda]:
         eval[i] = f_avg[i]#1/(1+math.exp(-a*(40-f_avg[i])))
     print(np.mean(f_avg))
     mean_eval.append(np.mean(eval))
-mean_noforce = plt.hlines(mean_eval[3]/2, 0, 4000,color=colors[0],linestyles = '--')
+mean_noforce = plt.hlines(mean_eval[3], 0, 4000,color=colors[0],linestyles = '--')
 mean_force = plt.hlines(mean_eval[4], 0, 4000,color=colors[1],linestyles = '--')
 mean_panda = plt.hlines(mean_eval[5], 0, 4000,color=colors[2],linestyles = '--')
 

@@ -53,12 +53,10 @@ for f in [f_force,f_no_force,f_panda]:
     # plt.plot(x,eval)
     # plt.show()
     #plt.ylim(0,1)
-arr_eval[0] = arr_eval[0]*5
-arr_eval[1] = arr_eval[1]*5
 
 plt.boxplot(arr_eval, boxprops={'color': 'b', 'linewidth': 2, 'linestyle': '--'}, showfliers=False)
-# plt.hlines(mean_eval[0]*5, 0, 2000,color="blue")
-# plt.hlines(mean_eval[1]*5, 0, 2000,color="orange")
+# plt.hlines(mean_eval[0], 0, 2000,color="blue")
+# plt.hlines(mean_eval[1], 0, 2000,color="orange")
 # plt.hlines(mean_eval[2], 0, 2000,color="green")
 
 plt.title("FRANKA") 

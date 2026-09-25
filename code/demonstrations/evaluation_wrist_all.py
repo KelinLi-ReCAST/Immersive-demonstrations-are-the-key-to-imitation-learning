@@ -57,7 +57,6 @@ for f in [f_no_force,f_force,f_panda,r_no_force,r_force,r_panda,m_no_force,m_for
     print(np.mean(f_avg))
     mean_eval.append(np.mean(eval))
     arr_eval.append(eval)
-# arr_eval[5] = arr_eval[5]*3
     # plt.plot(x,eval)
     # plt.show()
     #plt.ylim(0,1)
@@ -67,12 +66,6 @@ for f in [f_no_force,f_force,f_panda,r_no_force,r_force,r_panda,m_no_force,m_for
 colors = [(202/255.,96/255.,17/255.), (255/255.,217/255.,102/255.), (137/255.,128/255.,68/255.)]
 
 
-# arr_eval[0] = arr_eval[0]*5
-# arr_eval[1] = arr_eval[1]*5
-# arr_eval[3] = arr_eval[3]*3
-# arr_eval[4] = arr_eval[4]*3
-# arr_eval[6] = arr_eval[6]*3
-# arr_eval[7] = arr_eval[7]*3
 
 labels = ["NFF", "FFF", "FPFF"]
 bplot = plt.boxplot(arr_eval[:3], patch_artist=True,labels=labels,positions=(1,1.4,1.8),widths=0.3, showfliers=False) 
