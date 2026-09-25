@@ -13,9 +13,9 @@ f_panda = []
 mean_eval = []
 a = 0.1
 name_list = ['1','2','3','4','5','6','7','8','9','10']
-eval_force = np.sort(np.load(DATA_DIR+"/test_force_ruth.npy")*4)
+eval_force = np.sort(np.load(DATA_DIR+"/test_force_ruth.npy"))
 force_mean = np.zeros(25)
-eval_noforce = np.sort(np.load(DATA_DIR+"/test_noforce_ruth.npy")*4)
+eval_noforce = np.sort(np.load(DATA_DIR+"/test_noforce_ruth.npy"))
 noforce_mean = np.zeros(25)
 
 for i in range(25):
@@ -46,7 +46,7 @@ for f in [f_force,f_no_force,f_panda]:
         f_avg[i] = fsum/count
         eval[i] = f_avg[i]#1/(1+math.exp(-a*(40-f_avg[i])))
     # print(np.mean(f_avg))
-    mean_eval.append(np.mean(eval)/4)
+    mean_eval.append(np.mean(eval))
     # plt.plot(x,eval)
     # plt.show()
     #plt.ylim(0,1)
@@ -63,8 +63,8 @@ for i in range(len(force_mean_new)):
 # plt.plot(x_new,force_mean_new)
 # plt.plot(x_new,noforce_mean_new)
 
-plt.hlines(mean_eval[0]*3, 0, 2000,color="blue")
-plt.hlines(mean_eval[1]*3, 0, 2000,color="orange")
+plt.hlines(mean_eval[0], 0, 2000,color="blue")
+plt.hlines(mean_eval[1], 0, 2000,color="orange")
 plt.hlines(mean_eval[2], 0, 2000,color="green")
 plt.title("RUTH") 
 plt.show()
