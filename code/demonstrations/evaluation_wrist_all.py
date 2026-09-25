@@ -113,13 +113,13 @@ for demonstrator in name_list:
     for i in range(5):
         f_no_force.append(np.load(DATA_DIR+"/franka/no_force/finger_force_"+demonstrator+"_"+str(i)+".npy"))
         f_force.append(np.load(DATA_DIR+"/franka/force/finger_force_"+demonstrator+"_"+str(i)+".npy"))
-        f_panda.append(np.load(DATA_DIR+"/franka/panda/finger_force_"+demonstrator+"_"+str(i)+".npy")/1.5)
+        f_panda.append(np.load(DATA_DIR+"/franka/panda/finger_force_"+demonstrator+"_"+str(i)+".npy"))
         r_no_force.append(np.load(DATA_DIR+"/RUTH/no_force/finger_force_"+demonstrator+"_"+str(i)+".npy"))
         r_force.append(np.load(DATA_DIR+"/RUTH/force/finger_force_"+demonstrator+"_"+str(i)+".npy"))
-        r_panda.append(np.load(DATA_DIR+"/RUTH/panda/finger_force_"+demonstrator+"_"+str(i)+".npy")/2)
+        r_panda.append(np.load(DATA_DIR+"/RUTH/panda/finger_force_"+demonstrator+"_"+str(i)+".npy"))
         m_no_force.append(np.load(DATA_DIR+"/mano/no_force/finger_force_"+demonstrator+"_"+str(i)+".npy"))
         m_force.append(np.load(DATA_DIR+"/mano/force/finger_force_"+demonstrator+"_"+str(i)+".npy"))
-        m_panda.append(np.load(DATA_DIR+"/mano/panda/finger_force_"+demonstrator+"_"+str(i)+".npy")/2)
+        m_panda.append(np.load(DATA_DIR+"/mano/panda/finger_force_"+demonstrator+"_"+str(i)+".npy"))
 
 for f in [f_no_force,f_force,f_panda,r_no_force,r_force,r_panda,m_no_force,m_force,m_panda]:
     f_avg = np.zeros(len(f))

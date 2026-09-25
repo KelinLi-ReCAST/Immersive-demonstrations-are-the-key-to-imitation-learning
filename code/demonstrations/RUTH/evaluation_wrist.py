@@ -13,9 +13,9 @@ f_panda = []
 mean_eval = []
 a = 0.1
 name_list = ['1','2','3','4','5','6','7','8','9','10']
-eval_force = np.sort(np.load(DATA_DIR+"/test_force_ruth.npy")*4)
+eval_force = np.sort(np.load(DATA_DIR+"/test_force_ruth.npy"))
 force_mean = np.zeros(25)
-eval_noforce = np.sort(np.load(DATA_DIR+"/test_noforce_ruth.npy")*4)
+eval_noforce = np.sort(np.load(DATA_DIR+"/test_noforce_ruth.npy"))
 noforce_mean = np.zeros(25)
 
 for i in range(25):

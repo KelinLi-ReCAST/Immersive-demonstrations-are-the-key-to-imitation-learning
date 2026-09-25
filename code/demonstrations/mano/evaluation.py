@@ -41,7 +41,7 @@ for demonstrator in name_list:
     for i in range(5):
         f_no_force.append(np.load(DATA_DIR+"/no_force/finger_force_"+demonstrator+"_"+str(i)+".npy"))
         f_force.append(np.load(DATA_DIR+"/force/finger_force_"+demonstrator+"_"+str(i)+".npy"))
-        f_panda.append(np.load(DATA_DIR+"/panda/finger_force_"+demonstrator+"_"+str(i)+".npy")/2)
+        f_panda.append(np.load(DATA_DIR+"/panda/finger_force_"+demonstrator+"_"+str(i)+".npy"))
 
 
 for f in [f_force,f_no_force,f_panda]:
